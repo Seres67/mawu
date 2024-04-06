@@ -3,8 +3,11 @@
 
 enum mawu_token_type
 {
-    LEFT_PAREN,
-    RIGHT_PAREN
+    MAWU_LEFT_PAREN,
+    MAWU_RIGHT_PAREN,
+    MAWU_EQUAL,
+    MAWU_EQUAL_EQUAL,
+    MAWU_EOF
 };
 
 typedef struct mawu_token_s
