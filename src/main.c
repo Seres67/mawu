@@ -9,8 +9,13 @@ void run(char *source)
     if (!scanner)
         return;
     mawu_token **tokens = scanner_scan_tokens(scanner);
-    for (size_t i = 0; tokens[i]; ++i)
-        printf("%s %d\n", tokens[i]->lexeme, tokens[i]->type);
+    char *out;
+    for (size_t i = 0; tokens[i]; ++i) {
+        out = mawu_token_to_string(tokens[i]);
+        printf("%s\n", out);
+        free(out);
+    }
+    scanner_delete(scanner);
 }
 
 void mawu_repl() {}

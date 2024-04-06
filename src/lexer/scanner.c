@@ -1,5 +1,5 @@
-#include "lexer/tokens.h"
 #include <lexer/scanner.h>
+#include <lexer/tokens.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,9 +24,12 @@ void scanner_delete(mawu_scanner *scanner)
 {
     free(scanner->source);
     for (int i = 0; scanner->tokens[i]; ++i) {
+        if (scanner->tokens[i]->lexeme)
+            free(scanner->tokens[i]->lexeme);
         free(scanner->tokens[i]);
     }
     free(scanner->tokens);
+    free(scanner);
 }
 
 char scanner_next(mawu_scanner *scanner)
@@ -87,7 +90,7 @@ static void _scanner_scan_token(mawu_scanner *scanner)
                                        : MAWU_EQUAL);
         break;
     default:
-        fprintf(stderr, "unrecognized char line %d char %d\n", scanner->_line,
+        fprintf(stderr, "unrecognized char at %d:%d\n", scanner->_line,
                 scanner->_current);
     }
 }
@@ -98,7 +101,7 @@ mawu_token **scanner_scan_tokens(mawu_scanner *scanner)
         scanner->_start = scanner->_current;
         _scanner_scan_token(scanner);
     }
-    mawu_token *token = token_new(MAWU_EOF, "", NULL, scanner->_line);
+    mawu_token *token = token_new(MAWU_EOF, NULL, NULL, scanner->_line);
     if (!token)
         return NULL;
     scanner->tokens = realloc(scanner->tokens, (++scanner->_token_count + 1) *
