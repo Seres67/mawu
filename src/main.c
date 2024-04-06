@@ -27,16 +27,9 @@ void mawu_run_file(char *file)
         fprintf(stderr, "couldn't open file");
         return;
     }
-    // int read;
-    // char *line = NULL;
-    // size_t len = 0;
-    //
-    // while ((read = getline(&line, &len, f))) {
-    // }
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
-    fseek(f, 0, SEEK_SET); /* same as rewind(f); */
-
+    fseek(f, 0, SEEK_SET);
     char *string = malloc(fsize + 1);
     fread(string, fsize, 1, f);
     fclose(f);
@@ -47,7 +40,6 @@ void mawu_run_file(char *file)
 
 int main(int ac, char **av)
 {
-    printf("Hello world!\n");
     if (ac == 1) {
         mawu_repl();
     } else if (ac == 2) {
