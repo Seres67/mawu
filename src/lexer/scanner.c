@@ -154,19 +154,9 @@ struct char_to_token_enum
     enum mawu_token_type t;
 };
 
-static struct char_to_token_enum CHAR_TO_TOKEN[] = {{'(', MAWU_LEFT_PAREN},
-                                                    {')', MAWU_RIGHT_PAREN},
-                                                    {'=', MAWU_EQUAL},
-                                                    {0, MAWU_NONE}};
-
-static void _scanner_scan_token(mawu_scanner *scanner)
+void _scanner_scan_token(mawu_scanner *scanner)
 {
     char c = scanner_next(scanner);
-    // for (int i = 0; CHAR_TO_TOKEN[i].c; ++i) {
-    //     if (c == CHAR_TO_TOKEN[i].c) {
-    //         scanner_add_token(scanner, CHAR_TO_TOKEN[i].t);
-    //     }
-    // }
     switch (c) {
     case '{':
         scanner_add_token(scanner, MAWU_LEFT_BRACE);
